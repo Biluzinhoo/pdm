@@ -29,8 +29,8 @@
         android:layout_gravity="left"
         android:layout_weight="0.1"
         android:ems="10"
-        android:inputType="text"
-        android:text="x(kg)" />
+        android:hint="X(kg)"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/tvAltura"
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.1"
         android:ems="10"
-        android:inputType="text"
-        android:text="Y(m)" />
+        android:hint="Y(m)"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/button4"
