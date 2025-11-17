@@ -1,6 +1,7 @@
 package com.example.app2;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,80 +20,67 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     SQLiteDatabase db;
-    Button b;
+    Button button;
     EditText editText;
     ListView listView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
+        button = findViewById(R.id.button);
+        editText = findViewById(R.id.editTextText);
+        listView = findViewById(R.id.listView);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        db = openOrCreateDatabase("app_database", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS notas (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "titulo VARCHAR, " +
-                "texto TEXT)");
+        db = openOrCreateDatabase("meu_banco.db", MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS notas" +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR, txt TEXT);");
 
-        b = findViewById(R.id.button);
-        editText = findViewById(R.id.editTextText);
-        listView = findViewById(R.id.listView);
+        carregarListagem();
 
-        b.setOnClickListener(v -> {
-            String texto = editText.getText().toString().trim();
-
-            if (texto.isEmpty()) {
-                Toast.makeText(this, "Digite algo antes de salvar!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
+        button.setOnClickListener(v -> {
+            String titulo = editText.getText().toString();
             ContentValues cv = new ContentValues();
-            cv.put("titulo", "Nota do Usuário");
-            cv.put("texto", texto);
-            db.insert("notas", null, cv);
-
-            Toast.makeText(this, "Nota salva!", Toast.LENGTH_SHORT).show();
-
-            editText.setText("");
+            cv.put("titulo", titulo);
+            db.insert("notas",null, cv);
             carregarListagem();
         });
 
-        carregarListagem();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String titulo = (String) parent.getItemAtPosition(position);
+            Intent intent = new Intent(MainActivity.this, ExibeItem.class);
+            intent.putExtra("titulo",titulo);
+            startActivity(intent);
+
+        });
+
+
     }
 
     public void carregarListagem() {
-        ArrayList<String> titulos = new ArrayList<>();
+        ArrayList<String> titulos = new ArrayList<String>();
+        Cursor cursor = db.rawQuery("SELECT * FROM notas", null);
+        cursor.moveToFirst();
 
-        Cursor cursor = db.rawQuery("SELECT titulo, texto FROM notas", null);
-
-        if (cursor.moveToFirst()) {
-            int tituloIndex = cursor.getColumnIndex("titulo");
-            int textoIndex = cursor.getColumnIndex("texto");
-
-            do {
-                String titulo = cursor.getString(tituloIndex);
-                String texto = cursor.getString(textoIndex);
-                titulos.add(titulo + ": " + texto);
-            } while (cursor.moveToNext());
+        while(!cursor.isAfterLast()) {
+            String titulo = cursor.getString(cursor.getColumnIndex("titulo"));
+            titulos.add(titulo);
+            cursor.moveToNext();
         }
 
-        cursor.close();
-
         ArrayAdapter<String> titulosAdapter = new ArrayAdapter<>(
-                this,
+                getApplicationContext(),
                 android.R.layout.simple_list_item_1,
                 titulos
         );
 
         listView.setAdapter(titulosAdapter);
     }
+
 }
