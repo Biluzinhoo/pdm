@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     EditText editText;
     ListView listView;
+
+    EditText editText2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
         editText = findViewById(R.id.editTextText);
         listView = findViewById(R.id.listView);
+        editText2 = findViewById(R.id.editTextText2);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -52,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
             carregarListagem();
         });
 
+        button.setOnClickListener(v -> {
+            String texto = editText2.getText().toString();
+            ContentValues cv = new ContentValues();
+            cv.put("texto", texto);
+            db.insert("notas",null, cv);
+            carregarListagem();
+        });
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             String titulo = (String) parent.getItemAtPosition(position);
             Intent intent = new Intent(MainActivity.this, ExibeItem.class);
@@ -59,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String texto = (String) parent.getItemAtPosition(position);
+            Intent intent = new Intent(MainActivity.this, ExibeItem.class);
+            intent.putExtra("texto",texto);
+            startActivity(intent);
+
+        });
+
+
 
 
     }

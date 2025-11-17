@@ -12,7 +12,15 @@
         android:id="@+id/editTextText"
         android:layout_width="392dp"
         android:layout_height="wrap_content"
-        android:hint="Digite sua nota aqui" />
+        android:hint="Digite o título" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="382dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Digite o texto"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/button"
