@@ -15,36 +15,43 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       Log.d("ciclodevida","onCreate");
+        Log.d("ciclo_vida","Oncreate");
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("ciclodevida","onStart");
+        Log.d("ciclo_vida","onStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("ciclodevida","onResume");
+        Log.d("ciclo_vida","OnResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("ciclodevida","onPause");
+        Log.d("ciclo_vida","onPause");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("ciclo_vida","onRestart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("ciclodevida","onStop");
+        Log.d("ciclo_vida","onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("ciclodevida","onDestroy");
+        Log.d("ciclo_vida","onDestroy");
     }
 }
