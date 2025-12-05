@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".MainActivity">
-
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="392dp"
-        android:layout_height="wrap_content"
-        android:hint="Digite o título" />
-
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="382dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Digite o texto"
-        android:inputType="text" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="169dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar Nota" />
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Salvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp"
+        android:ems="10"
+        android:hint="Escreva alguma coisa:"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/listView2"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
+        android:id="@+id/listView2"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
