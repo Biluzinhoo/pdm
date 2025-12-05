@@ -1,5 +1,6 @@
 package com.example.app2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -20,9 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
     SensorManager sm;
     TextView textView;
+
     ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +34,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.tvSensor);
+        listView = findViewById(R.id.listView);
+
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
-        sm.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL);
-        List<Sensor> sensorsList = sm.getSensorList(Sensor.TYPE_ALL);
+        sm.registerListener(this , sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+        List<Sensor> sensorList = sm.getSensorList(Sensor.TYPE_ALL); //lista de sensores
         ArrayList<String> listNameSensor = new ArrayList<>();
-        for (Sensor s: sensorsList){
+        for (Sensor s: sensorList){
             listNameSensor.add(s.getName());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,listNameSensor);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listNameSensor);
         listView.setAdapter(adapter);
+
+        //
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        //
+
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
         event.sensor.getName();
 
-        textView.setText(Float.toString(event.values[0]));
+        textView.setText((Float.toString(event.values[0])));
+
     }
 
     @Override
